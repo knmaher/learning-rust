@@ -12,7 +12,7 @@
 //   Part 1: read the player's guess      [done]
 //   Part 2: make a secret random number  [done]
 //   Part 3: compare guess and secret     [done]
-//   Part 4: keep asking until correct    [to do]
+//   Part 4: keep asking until correct    [done]
 //
 // ---------------------------------------------------------------------
 // PART 1 NOTES: variables and input
@@ -125,6 +125,40 @@
 //   parse() turns text into the type you asked for (Java: Integer.parseInt)
 //           It gives back a Result, because it can fail ("abc", or "-5" for a u32).
 //   Without trim(): "50\n" is not a number -> panic at runtime!
+//
+// ---------------------------------------------------------------------
+// PART 4 NOTES: loops and handling bad input
+// ---------------------------------------------------------------------
+// loop { ... }  -> repeat forever (Java: while (true) { ... })
+// break         -> leave the loop (same as Java)
+// continue      -> skip the rest and start the next round (same as Java)
+//
+// An arm with MORE than one line needs { }:
+//   Ordering::Equal => {
+//       println!("You win!");
+//       break;
+//   }
+//
+// HANDLING an error instead of CRASHING:
+//   .expect("...")                    -> Err = crash (panic). OK for quick tests.
+//   match result { Ok(..) / Err(..) } -> Err = YOU decide what happens.
+//
+//   let guess: u32 = match guess.trim().parse() {
+//       Ok(num) => num,      // success: take the number OUT of the Ok box
+//       Err(_) => continue,  // failure: `_` = "I don't care which error"
+//   };
+//
+//   Java does the same with try/catch:
+//     try { guess = Integer.parseInt(input.trim()); }
+//     catch (NumberFormatException e) { continue; }
+//
+// MATCH GIVES BACK A VALUE, so you can write:  let x = match ... { ... };
+//   (Java 14+: int x = switch (...) { ... };)
+//   `continue` never gives a value (it jumps away), so Rust accepts it there.
+//
+// `let mut guess = String::new();` must be INSIDE the loop:
+//   read_line ADDS to the String. Outside the loop, round 2 would hold
+//   "50\n30\n" -> parse fails every time -> the game asks forever.
 // =====================================================================
 
 // Style: `std` imports first, then a blank line, then external crates.
@@ -143,39 +177,52 @@ fn main() {
     // No `mut`: the secret number must never change.
     let secret_number = rand::rng().random_range(1..=100);
 
-    // Only for testing! Delete this line at the end of the chapter.
+    // Only for testing! Delete this line when you finish the coding task.
     println!("The secret number is: {secret_number}");
 
-    // ---------------- PART 1: read the player's guess ----------------
-    println!("Please input your guess.");
-
-    // An empty, growable String. `mut` because read_line will change it.
-    let mut guess = String::new();
-
-    io::stdin() // the keyboard input (Java: System.in)
-        .read_line(&mut guess) // read a line and ADD it to `guess` (keeps the \n!)
-        .expect("Failed to read line"); // Ok -> continue. Err -> crash with this message.
-
-    // Turn the text into a number (Part 3):
-    //   trim()   -> remove the "\n" and spaces:  "50\n" -> "50"
-    //   parse()  -> text -> u32 (the type after the colon). Gives a Result: it can fail!
-    //   expect() -> Ok -> the number. Err -> crash with this message.
-    //   `let guess` again = SHADOWING: a new variable, same name, new type (u32).
-    let guess: u32 = guess.trim().parse().expect("Please type a number!");
-
-    // {guess} puts the value inside the text (Java: "You guessed: " + guess)
-    println!("You guessed: {guess}");
-
-    // ---------------- PART 3: compare guess and secret ----------------
-    // guess.cmp(&secret_number) -> gives back Ordering::Less, Equal or Greater
-    //                              (Java: guess.compareTo(secret) gives -1, 0 or 1)
-    // match -> runs the ONE arm that fits. Every case MUST be handled.
-    match guess.cmp(&secret_number) {
-        Ordering::Less => println!("Too small!"),
-        Ordering::Greater => println!("Too big!"),
-        Ordering::Equal => println!("You win!"),
-    }
-
     // ---------------- PART 4: keep asking until correct ----------------
-    // (to do - you will type it yourself)
+    // loop = repeat forever (Java: while (true)).
+    // Everything inside repeats until `break` (when the player wins).
+    loop {
+        // ---------------- PART 1: read the player's guess ----------------
+        println!("Please input your guess.");
+
+        // A NEW empty String every round. It must be INSIDE the loop:
+        // read_line ADDS to the String, so outside the loop round 2
+        // would hold "50\n30\n" and parse would fail every time.
+        let mut guess = String::new();
+
+        io::stdin() // the keyboard input (Java: System.in)
+            .read_line(&mut guess) // read a line and ADD it to `guess` (keeps the \n!)
+            .expect("Failed to read line"); // Ok -> continue. Err -> crash with this message.
+
+        // Turn the text into a number (Parts 3 + 4):
+        //   trim()  -> remove the "\n" and spaces:  "50\n" -> "50"
+        //   parse() -> text -> u32 (the type after the colon). Gives a Result: it can fail!
+        //   match on the Result instead of .expect() -> no crash on bad input:
+        //     Ok(num) => num      -> take the number OUT of the Ok box. It becomes `guess`.
+        //     Err(_) => continue  -> `_` = "I don't care which error". Ask again.
+        //   `let guess` again = SHADOWING: a new variable, same name, new type (u32).
+        let guess: u32 = match guess.trim().parse() {
+            Ok(num) => num,
+            Err(_) => continue,
+        };
+
+        // {guess} puts the value inside the text (Java: "You guessed: " + guess)
+        println!("You guessed: {guess}");
+
+        // ---------------- PART 3: compare guess and secret ----------------
+        // guess.cmp(&secret_number) -> gives back Ordering::Less, Equal or Greater
+        //                              (Java: guess.compareTo(secret) gives -1, 0 or 1)
+        // match -> runs the ONE arm that fits. Every case MUST be handled.
+        match guess.cmp(&secret_number) {
+            Ordering::Less => println!("Too small!"),
+            Ordering::Greater => println!("Too big!"),
+            // More than one line in an arm -> put it in { }
+            Ordering::Equal => {
+                println!("You win!");
+                break; // leave the loop -> the game ends (same as Java)
+            }
+        }
+    }
 }
