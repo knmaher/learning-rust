@@ -75,12 +75,12 @@
 
 fn main() {
     // High-level code that runs at low-level speed (a zero-cost abstraction).
-    // You'll learn `vec!` and `.iter()` later - for now, just read the idea.
-    let numbers = vec![1, 2, 3];
+    // You'll learn arrays `[...]` (Chapter 3) and `.iter()` (Chapter 13) later.
+    let numbers = [1, 2, 3];
     let sum: i32 = numbers.iter().sum();
     println!("1 + 2 + 3 = {sum}");
     // No malloc, no free, no garbage collector:
-    // Rust frees `numbers` by itself at the end of `main`.
+    // Rust cleans up `numbers` by itself at the end of `main`.
 
     // TRY IT: the compiler catches this mistake BEFORE the program runs.
     // Remove the `//` in front of the next line, then run `cargo check`.

@@ -177,8 +177,7 @@ fn main() {
     // No `mut`: the secret number must never change.
     let secret_number = rand::rng().random_range(1..=100);
 
-    // Only for testing! Delete this line when you finish the coding task.
-    println!("The secret number is: {secret_number}");
+    let mut guess_count = 0; // count the number of guesses (Part 4)
 
     // ---------------- PART 4: keep asking until correct ----------------
     // loop = repeat forever (Java: while (true)).
@@ -205,8 +204,18 @@ fn main() {
         //   `let guess` again = SHADOWING: a new variable, same name, new type (u32).
         let guess: u32 = match guess.trim().parse() {
             Ok(num) => num,
-            Err(_) => continue,
+            Err(_) => {
+                println!("Please enter a valid number!");
+                continue;
+            }
         };
+
+        if !(1..=100).contains(&guess) {
+            println!("The number is between 1 and 100!");
+            continue;
+        }
+
+        guess_count += 1; // count the number of guesses (Part 4)
 
         // {guess} puts the value inside the text (Java: "You guessed: " + guess)
         println!("You guessed: {guess}");
@@ -220,7 +229,7 @@ fn main() {
             Ordering::Greater => println!("Too big!"),
             // More than one line in an arm -> put it in { }
             Ordering::Equal => {
-                println!("You win!");
+                println!("You win! It took you {guess_count} guesses.");
                 break; // leave the loop -> the game ends (same as Java)
             }
         }

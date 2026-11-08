@@ -17,7 +17,7 @@ Change the name to the chapter you want. Run `cargo run` alone to see the list o
 |---|---|---|---|
 | 0 | [`ch00_introduction.rs`](src/bin/ch00_introduction.rs) | Why Rust exists, compile time vs runtime | ✅ Done |
 | 1 | [`ch01_hello_world.rs`](src/bin/ch01_hello_world.rs) | The tools, Hello World, Cargo | ✅ Done |
-| 2 | [`ch02_guessing_game.rs`](src/bin/ch02_guessing_game.rs) | Guessing game | 🚧 Parts 1–2 done, Parts 3–4 to do |
+| 2 | [`ch02_guessing_game.rs`](src/bin/ch02_guessing_game.rs) | Guessing game | ✅ Done (+ guess counter and input checks) |
 
 ## How this project is built
 
