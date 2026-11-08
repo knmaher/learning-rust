@@ -1,6 +1,29 @@
-[package]
-name = "learning-rust"
-version = "0.1.0"
-edition = "2024"
+# ============================================================
+# Cargo.toml = the settings file of this project
+# (Java: like pom.xml in Maven, or build.gradle in Gradle)
+# Lines that start with # are comments.
+#
+# Every file in src/bin/ is its own small program (one per chapter).
+# Cargo finds them by itself - no settings needed here.
+# ============================================================
 
+[package]
+name = "learning-rust" # the project's name
+version = "0.1.0"      # MY project's version: MAJOR.MINOR.PATCH
+edition = "2024"       # which set of Rust language rules to use (2024 = newest)
+
+# ------------------------------------------------------------
+# [dependencies] = the libraries ("crates") this project uses.
+# They are downloaded from crates.io (Java: Maven Central).
+#
+# VERSION RULE:  rand = "0.10.1"  means
+#   "at least 0.10.1, but stay inside 0.10.x"
+#   0.10.3 -> allowed (bug fixes, safe)
+#   0.11.0 -> NOT allowed (big change, could break my code)
+#   When the first number is 0, the MIDDLE number means "big change".
+#
+# The EXACT version Cargo chose is written in Cargo.lock
+# (made by Cargo - never edit it by hand).
+# ------------------------------------------------------------
 [dependencies]
+rand = "0.10.1" # random numbers (Chapter 2)
