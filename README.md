@@ -49,9 +49,24 @@ learning-rust/
 | `cargo doc --open` | Open the docs of all crates I use |
 | `rustc --explain E0423` | Explain an error code |
 
-## Class rules
+## 4-week plan
+
+Goal: be productive in Rust in about one month (the core: Chapters 1–13), then keep growing by building real projects.
+
+| Week | Chapters | Topics |
+|---|---|---|
+| 1 | 2, 3, 4 | Finish the guessing game. Variables, types, functions, `if`/loops. **Ownership and borrowing** ⭐ |
+| 2 | 5, 6, 7, 8 | Structs. **Enums and `match`** ⭐. Modules. `Vec`, `String`, `HashMap` |
+| 3 | 9, 10, 11 | **Error handling** ⭐. **Generics, traits, lifetimes** ⭐. Tests |
+| 4 | 12, 13 + own project | Build a command-line tool. Closures and iterators. My own small project |
+| Later | 14–21 | Smart pointers, threads, async, patterns, advanced features, web server |
+
+⭐ = the hardest and most important parts. We go slower there and faster where Rust is like Java.
+
+## Class rules (fast mode)
 
 1. Type the code yourself. No copy-paste.
-2. Write a prediction before you run an experiment.
+2. Focus on what's different from Java. Skip what's the same.
 3. Read every error message to the bottom and look for `help:`.
 4. Keep zero warnings.
+5. Every lesson ends with a few one-line questions and one small coding task.
