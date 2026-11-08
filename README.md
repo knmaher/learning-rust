@@ -18,6 +18,7 @@ Change the name to the chapter you want. Run `cargo run` alone to see the list o
 | 0 | [`ch00_introduction.rs`](src/bin/ch00_introduction.rs) | Why Rust exists, compile time vs runtime | ✅ Done |
 | 1 | [`ch01_hello_world.rs`](src/bin/ch01_hello_world.rs) | The tools, Hello World, Cargo | ✅ Done |
 | 2 | [`ch02_guessing_game.rs`](src/bin/ch02_guessing_game.rs) | Guessing game | ✅ Done (+ guess counter and input checks) |
+| 3 | [`ch03_common_concepts.rs`](src/bin/ch03_common_concepts.rs) | Variables, types, functions, control flow | 🚧 Notes done, task to do |
 
 ## How this project is built
 
@@ -30,7 +31,8 @@ learning-rust/
     └── bin/            ← one program per chapter
         ├── ch00_introduction.rs
         ├── ch01_hello_world.rs
-        └── ch02_guessing_game.rs
+        ├── ch02_guessing_game.rs
+        └── ch03_common_concepts.rs
 ```
 
 - Every `.rs` file in `src/bin/` is **its own program** with its own `fn main()`. Cargo finds them automatically.
